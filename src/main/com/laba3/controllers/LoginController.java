@@ -33,35 +33,6 @@ public class LoginController {
         return "login";
     }
 
-//    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    public String input(@RequestParam(value = "login", required = true) String login,
-//                        @RequestParam(value = "password", required = true) String password,
-//                        HttpServletResponse response) {
-//
-//        return "redirect:/listUser";
-//    }
-//
-//            if (userService.authentication(login, password) != null &&
-//                    !userService.authentication(login, password).getLogin().equals("admin")) {
-//
-//
-//                logger.debug("user: " + login + " logged");
-//
-//                return "redirect:/listUser";}
-//
-//             else if (userService.authentication(login, password) != null &&
-//                    userService.authentication(login, password).getLogin().equals("admin")) {
-//
-//
-//                logger.debug("user: " + login + " logged");
-//
-//                return "redirect:/admin";
-//
-//            } else {
-//
-//                return "error";
-//            }
-//        }
 }
 
 
