@@ -7,7 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page errorPage="error.jsp" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%--<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page session="true"%>
 <%--<%@ page import="com.laba3.dao.UserDao " %>--%>
 <%--<%@ page import="com.laba3.dao.UserDaoImp" %>--%>
 <%--<%@ page import="com.laba3.ConnectBase" %>--%>
@@ -23,7 +25,7 @@
     </style>
 </head>
 <body>
-<form action="/login" method="post" accept-charset="utf-8">
+<form action="${pageContext.request.contextPath}/j_spring_security_check"  method="post" accept-charset="utf-8">
     <div class="main">
         <div class="textbox">
             Введите логин:<input type="text" maxlength="20" name="login"
@@ -37,7 +39,7 @@
     <input type="submit" name="input" value="Вход"  class="button" />
 </form>
     <div class="main">
-        <a href="/registration"><input type="submit" name="registration" value="Регистрация" class="button"></a>
+        <a href="${pageContext.request.contextPath}/registration"><input type="submit" name="registration" value="Регистрация" class="button"></a>
     </div>
 </body>
 </html>

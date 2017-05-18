@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
   Created by IntelliJ IDEA.
   User: root
@@ -19,12 +21,11 @@
 <body>
 
 <fieldset class="right">
-    <h3>Вы зашли, как ${sessionScope.userLogin}</h3>
-    <form action="/exit" method="post">
-        <button type="submit" value="exit" name="action">Выйти из текущего пользователя</button>
-    </form>
-    <%--<a class="block_button" tabindex="1" href="${pageContext.request.contextPath}/listUser">Перейти к списку пользователей</a>--%>
-    <%--<a class="block_button" tabindex="1" href="${pageContext.request.contextPath}/admin">Перейти к панели администратора</a>--%>
+    <%--<c:url var="logoutUrl" value="${pageContext.request.contextPath}/logout" />--%>
+    <%--<form action="${logoutUrl}" method="get" id="logoutForm" style="display:table-cell;vertical-align:center;">--%>
+        <%--<a  tabindex="1" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>--%>
+    <%--</form>--%>
+        <a href="<c:url value="/logout" />"> Выйти</a>
 
 </fieldset>
 

@@ -14,8 +14,6 @@ public class User {
     private Role role;
 
 
-    public User() {
-    }
 
     public User(long id, String login, String password, String mail, int role_id) {
         this.id = id;
@@ -24,6 +22,17 @@ public class User {
         this.mail = mail;
         this.role_id = role_id;
     }
+//
+
+    public User() {
+    }
+
+//    public User(String login, String password, boolean isAccountNonExpired,
+//                boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled, List<SimpleGrantedAuthority> authList) {
+//
+//        this.login = login;
+//        this.password = password;
+//    }
 
     public int getRole_id() {
         return role_id;

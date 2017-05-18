@@ -4,56 +4,11 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
   <display-name>Archetype Created Web Application</display-name>
-  <!--<servlet>-->
-    <!--<servlet-name>LogginServlet</servlet-name>-->
-    <!--<servlet-class>com.laba3.controllers.LogginServlet</servlet-class>-->
-  <!--</servlet>-->
-  <!--<servlet>-->
-    <!--<servlet-name>registration</servlet-name>-->
-    <!--<jsp-file>/jsp/registration.jsp</jsp-file>-->
-  <!--</servlet>-->
-  <!--<servlet-mapping>-->
-    <!--<servlet-name>registration</servlet-name>-->
-    <!--<url-pattern>/registration</url-pattern>-->
-  <!--</servlet-mapping>-->
-  <!--<servlet-mapping>-->
-    <!--<servlet-name>LogginServlet</servlet-name>-->
-    <!--<url-pattern>/</url-pattern>-->
-  <!--</servlet-mapping>-->
-  <!--<servlet>-->
-    <!--<servlet-name>ListServlet</servlet-name>-->
-    <!--<servlet-class>com.laba3.controllers.ListServlet</servlet-class>-->
-  <!--</servlet>-->
-  <!--<servlet-mapping>-->
-    <!--<servlet-name>ListServlet</servlet-name>-->
-    <!--<url-pattern>/listUser</url-pattern>-->
-  <!--</servlet-mapping>-->
-  <!--<servlet>-->
-    <!--<servlet-name>AdminServlet</servlet-name>-->
-    <!--<servlet-class>com.laba3.controllers.AdminServlet</servlet-class>-->
-  <!--</servlet>-->
-  <!--<servlet-mapping>-->
-    <!--<servlet-name>AdminServlet</servlet-name>-->
-    <!--<url-pattern>/admin</url-pattern>-->
-  <!--</servlet-mapping>-->
-  <!--<servlet>-->
-    <!--<servlet-name>RegistrServlet</servlet-name>-->
-    <!--<servlet-class>com.laba3.controllers.RegistrServlet</servlet-class>-->
-  <!--</servlet>-->
-  <!--<servlet-mapping>-->
-    <!--<servlet-name>RegistrServlet</servlet-name>-->
-    <!--<url-pattern>/register</url-pattern>-->
-  <!--</servlet-mapping>-->
 
-  <!--<servlet>-->
-    <!--<servlet-name>ServletDelete</servlet-name>-->
-    <!--<servlet-class>com.laba3.controllers.ServletDelete</servlet-class>-->
-  <!--</servlet>-->
-  <!--<servlet-mapping>-->
-    <!--<servlet-name>ServletDelete</servlet-name>-->
-    <!--<url-pattern>/delete</url-pattern>-->
-  <!--</servlet-mapping>-->
-
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>WEB-INF/Main-servlet.xml</param-value>
+  </context-param>
 
   <servlet>
     <servlet-name>Main</servlet-name>
@@ -64,28 +19,42 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
+
   <filter>
-    <filter-name>WhiteFilter</filter-name>
-    <filter-class>com.laba3.controllers.filters.WhiteList</filter-class>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
   </filter>
   <filter-mapping>
-    <filter-name>WhiteFilter</filter-name>
+    <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-  <listener>
+
+  <filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+<!--  <listener>
     <listener-class>com.laba3.controllers.listeners.NewAppStartListener</listener-class>
   </listener>
   <listener>
     <listener-class>com.laba3.controllers.listeners.MySessionListener</listener-class>
-  </listener>
+  </listener>-->
 
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-
-  <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>WEB-INF/Main-servlet.xml</param-value>
-  </context-param>
 </web-app>

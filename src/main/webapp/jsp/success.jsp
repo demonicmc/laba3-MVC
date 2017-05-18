@@ -17,7 +17,7 @@
 
     <div class="main">
         <p class="main">Регистрация завершена</p>
-        <a href="/login">
+        <a href="${pageContext.request.contextPath}/login">
             <input type="submit" name="input" value="Войти" class="button">
         </a>
     </div>

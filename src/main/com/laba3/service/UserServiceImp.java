@@ -51,4 +51,9 @@ public class UserServiceImp implements UserService {
 
     public void setUserDAO(UserDaoImp userDAO) {
     }
+
+    @Override
+    public User getByLogin(String login) {
+        return userDAO.getByLogin(login);
+    }
 }

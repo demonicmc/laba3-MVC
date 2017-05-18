@@ -22,7 +22,7 @@
     </script>
 </head>
 <body>
-    <form action="/add" id="add" method="post">
+    <form action="${pageContext.request.contextPath}/add" id="add" method="post">
         login<input type="text" id="login" name="login" /><br/>
         password<input type="password" id="password" name="password" /><br/>
         mail<input type="email" name="email" id="email" /><br/>

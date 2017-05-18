@@ -12,5 +12,6 @@ public interface UserDao extends Dao<Long, User> {
     User findUserByLoginAndPassword(String login, String password);
     List<User> getAll();
     void deleteById(int id);
+    User getByLogin(String login);
 
 }

@@ -13,5 +13,6 @@ public interface UserService {
     List<User> getAllUser() throws ClassNotFoundException;
     long addUser (User user);
     void deleteByIdUser (int id);
+    User getByLogin(String login);
 
 }

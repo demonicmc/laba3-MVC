@@ -18,7 +18,7 @@
 <c:import url="/jsp/navigate.jsp"/>
 <%--<%@include file="/jsp/navigate.jsp" %>--%>
 
-    <form action="/addUser" method="post">
+    <form action="${pageContext.request.contextPath}/addUser" method="post">
         <input type="submit" name="add" value="Добавить нового пользователя" />
     </form>
 <%--<form action="/register" method="post">--%>
@@ -42,7 +42,7 @@
                 <td><c:out value="${admin.mail}"></c:out></td>
                 <td><c:out value="${admin.role_id}"></c:out></td>
                 <td>
-                     <form method="post" action="/delete">
+                     <form method="post" action="${pageContext.request.contextPath}/delete">
                             <button type="submit" value="${admin.id}" name="delete">Удалить</button>
                      </form>
                 </td>

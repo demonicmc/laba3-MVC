@@ -5,6 +5,7 @@
   Time: 13:39
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -37,14 +38,8 @@
                     $.post("/register", {
                         login: login,
                         password:password,
-//                        password2:password2,
+
                         email: email
-                    }, function(data) {
-                        if (data == 'You have Successfully Registered.....') {
-//                            $("form")[0].reset();
-                        }
-//                        alert(data);
-                        window.location.replace("/");
                     });
                 }
             });
@@ -52,7 +47,7 @@
     </script>
 </head>
 <body>
-    <form action="/register"
+    <form action="<c:url value='/register' />"
           id="registration" method="post" accept-charset="utf-8" name="registration">
         <div class="main">
             <div class="textbox">

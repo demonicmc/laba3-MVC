@@ -1,10 +1,11 @@
 package com.laba3.controllers;
 
-import com.laba3.MyMath;
 import com.laba3.pojo.User;
 import com.laba3.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,9 +22,16 @@ import java.io.IOException;
 @Controller
 public class AddDeleteController {
 
+    private PasswordEncoder encoder;
+
     private final UserService userService;
 
     final static Logger logger = Logger.getLogger(AddDeleteController.class);
+
+    @Autowired
+    public void setEncoder(PasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
     @Autowired
     public AddDeleteController(UserService userService) {
@@ -36,6 +44,7 @@ public class AddDeleteController {
     }
 
 
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public void deleteUser(@RequestParam(value = "delete", required = true)
                                          String delete, HttpServletResponse resp){
@@ -57,10 +66,14 @@ public class AddDeleteController {
 
     }
 
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public String add(){
         return "add";
     }
+
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
 
     @RequestMapping(value ="/add" , method = RequestMethod.POST)
     public void addUser(@RequestParam(value = "action", required = true) String action,
@@ -69,13 +82,11 @@ public class AddDeleteController {
                         @RequestParam(value = "email", required = true) String email,
                         HttpServletResponse resp, HttpServletRequest req){
 
-        String pass = "";
         try {
-            pass = MyMath.createMD5(MyMath.createMD5(password));
 
             User user = new User();
             user.setLogin(login);
-            user.setPassword(pass);
+            user.setPassword(encoder.encode(password));
             user.setMail(email);
 
 
@@ -126,6 +137,8 @@ public class AddDeleteController {
         return "registration";
     }
 
+
+    @PreAuthorize("hasRole('ROLE_ANONYMOUS') ||  isAuthenticated()")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public void registration(@RequestParam(value = "action", required = true) String action,
                                @RequestParam(value = "login", required = true) String login,
@@ -133,13 +146,11 @@ public class AddDeleteController {
                                @RequestParam(value = "email", required = true) String email,
                                HttpServletResponse resp, HttpServletRequest req){
 
-        String pass = "";
         try {
-            pass = MyMath.createMD5(MyMath.createMD5(password));
 
             User user = new User();
             user.setLogin(login);
-            user.setPassword(pass);
+            user.setPassword(encoder.encode(password));
             user.setMail(email);
 
 
@@ -166,7 +177,9 @@ public class AddDeleteController {
             logger.info(e);
         }
 
+
     }
+    @PreAuthorize("hasRole('ROLE_ANONYMOUS') ||  isAuthenticated()")
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String success(){
         return "success";

@@ -1,9 +1,10 @@
 package com.laba3.dao;
 
 import com.laba3.ConnectBase;
-import com.laba3.MyMath;
 import com.laba3.pojo.User;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -17,22 +18,27 @@ import java.util.List;
 @Repository
 public class UserDaoImp implements UserDao {
 
+    private PasswordEncoder encoder;
     final static Logger logger = Logger.getLogger(UserDaoImp.class);
     Connection connection = null;
     PreparedStatement statement = null;
     ResultSet resultSet = null;
 
+    @Autowired
+    public void setEncoder(PasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
-    private static final String SELECT_ALL = "SELECT * FROM public.user";
-    private static final long ADMIN_ROLE_KEY = 2;
+    private static final String SELECT_ALL = "SELECT * FROM public.users";
+    private static final long ADMIN_ROLE_KEY = 3;
     private static final long USER_ROLE_KEY = 1;
     private static final String INSERT_INTO =
-            "INSERT INTO public.user (login, password, mail, role_id) VALUES (?, ?, ?, ?)";
+            "INSERT INTO public.users (login, password, mail, role_id) VALUES (?, ?, ?, ?)";
 
     private static final String UPDATE_WHERE =
-            "UPDATE public.user SET login = ?, password = ?, mail = ?, role_id = ?   WHERE id = ?";
+            "UPDATE public.users SET login = ?, password = ?, mail = ?, role_id = ?   WHERE id = ?";
 
-    private static final String DELETE_BY_ID = "DELETE FROM public.user WHERE id=?";
+    private static final String DELETE_BY_ID = "DELETE FROM public.users WHERE id=?";
 
 
     private Connection getConnection() throws SQLException {
@@ -42,16 +48,51 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
+    public User getByLogin(String login) {
+        User user = null;
+
+        try {
+            connection = getConnection();
+            statement = connection
+                    .prepareStatement( "SELECT * FROM public.users WHERE login = ?");
+
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                user = createEntity(resultSet);
+            }
+
+            logger.debug("user " + user);
+        } catch (SQLException e) {
+            logger.error(e);
+        } finally {
+            try {
+                if (statement != null)
+                    statement.close();
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return user;
+    }
+
+    @Override
     public User findUserByLoginAndPassword(String login, String password) {
 
         User user = null;
         String pass = "";
-        pass = MyMath.createMD5(MyMath.createMD5(password));
+        pass = password;
 
         try {
              connection = getConnection();
               statement = connection
-                     .prepareStatement( "SELECT * FROM public.user WHERE login = ? AND password = ?");
+                     .prepareStatement( "SELECT * FROM public.users WHERE login = ? AND password = ?");
 
             statement.setString(1, login);
             statement.setString(2, pass);
@@ -90,7 +131,7 @@ public class UserDaoImp implements UserDao {
             connection = getConnection();
              statement = connection.createStatement();
              resultSet =
-                    statement.executeQuery("SELECT * FROM public.user");
+                    statement.executeQuery("SELECT * FROM public.users");
 
             while (resultSet.next()) {
                 User user = new User();
@@ -105,7 +146,7 @@ public class UserDaoImp implements UserDao {
         } catch (SQLException e) {
             logger.info(e.getMessage());
             System.out.println("Что-то не так");
-//
+
         } finally {
             try {
                 if (statement != null)
@@ -166,7 +207,6 @@ public class UserDaoImp implements UserDao {
             statement.setString(1, entity.getLogin());
             statement.setString(2, entity.getPassword());
             statement.setString(3, entity.getMail());
-//            statement.setLong(4, entity.getRole_id());
             statement.setLong(4, USER_ROLE_KEY);
             statement.executeUpdate();
 
