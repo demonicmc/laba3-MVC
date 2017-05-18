@@ -132,6 +132,7 @@ public class AddDeleteController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_ANONYMOUS') ||  isAuthenticated()")
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String register(){
         return "registration";
